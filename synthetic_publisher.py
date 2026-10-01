@@ -9,7 +9,9 @@ import json
 import random
 import math
 import argparse
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+
+IST = timezone(timedelta(hours=5, minutes=30))
 import paho.mqtt.client as mqtt
 import config
 
@@ -125,7 +127,7 @@ def generate_telemetry_reading(step: int, mode: str) -> dict:
     vib_z = math.sqrt(max(0.001, vib_rms**2 - vib_x**2 - vib_y**2))
 
     reading = {
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "timestamp": datetime.now(IST).strftime("%Y-%m-%d %H:%M:%S"),
         "device_id": "TRANSFORMER-ESP32-01",
         "oil_temperature": round(oil_temp, 2),
         "winding_temperature": round(winding_temp, 2),
